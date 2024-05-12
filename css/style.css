@@ -1,0 +1,50 @@
+.Title{
+    margin: 40px auto;
+    width: fit-content;
+    font-size: 20px;
+}
+
+#startCont{
+    border: 3px solid black;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    width: fit-content;
+}
+
+#startCont > input{
+    display: flex;
+    margin: 20px;
+    font-size: 20px;
+}
+
+#err{
+    display: none;
+    font-size: 15px;
+    margin-left: 20px;
+    color: red;
+}
+
+#figuresCont, #counter{
+    display: none;
+    margin: 20px auto;
+}
+
+#counter{
+    font-size: 20px;
+    text-align: center;
+    width: fit-content;
+}
+
+#figuresCont{
+    border: 3px solid black;
+    width: 80%;
+    height: 65vh;
+}
+
+#fly{
+    display: flex;
+    width: 75px;
+    height: 75px;
+    border: 2px solid brown;
+}
