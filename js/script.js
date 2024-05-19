@@ -1,5 +1,5 @@
-var fieldWidth;
 var fieldHeight;
+var fieldWidth;
 var interval;
 
 var re1=/^-|^0/
