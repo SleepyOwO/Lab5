@@ -42,8 +42,8 @@
     height: 65vh;
 }
 
-#fly{
-    display: flex;
+.fly{
+    position: absolute;
     width: 75px;
     height: 75px;
     border: 2px solid brown;

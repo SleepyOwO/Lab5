@@ -2,13 +2,12 @@ var fieldWidth;
 var fieldHeight;
 var interval;
 
-var re=/^-|^$/
+var re1=/^-|^0/
+var re2=/^$/
 
 $(document).ready(function (){
     $("#start").click(function(){
-        fieldWidth = $('#figuresCont').width();
-        fieldHeight = $('#figuresCont').height();
-        if(!re.test($("#interval").val())){
+        if(!re1.test($("#interval").val()) && !re2.test($("#interval").val())){
             interval = parseInt($("#interval").val());
         } else{
             $("#interval").val("");
@@ -18,59 +17,47 @@ $(document).ready(function (){
         $("#startCont").hide();
         $("#counter").show();
         $("#figuresCont").show();
-        animateDiv();
+        createFly();
+        $("#figuresCont div").each(function () {
+            animateDiv($(this));
+        });
+        setInterval(function (){
+            createFly();
+            $("#figuresCont div").each(function () {
+                animateDiv($(this));
+            });
+        }, interval*1000);
     });
 });
 
-// function getRandom(min, max) {
-//     return parseInt(Math.random() * (max - min + 1)) + min;
-// }
-//
-// function StartHunt(){
-//     $("#fly").animate({top: getRandom(10, fieldHeight-10), left: getRandom(10, fieldWidth-10)},
-//         3000)
-//         .animate({top: "300", left: "200"},
-//             3000)
-//         .animate({top: "100", left: "400"},
-//             3000);
-//     return false;
-// }
-
-function makeNewPosition(){
-
-    // Get viewport dimensions (remove the dimension of the div)
-    var h = fieldHeight - 50;
-    var w = fieldWidth - 50;
-
-    var nh = Math.floor(Math.random() * h);
-    var nw = Math.floor(Math.random() * w);
-
-    return [nh,nw];
-
+function getRandom(min, max) {
+    return parseInt(Math.random() * (max - min + 1)) + min;
 }
 
-function animateDiv(){
-    var newq = makeNewPosition();
-    var oldq = $('#fly').offset();
-    var speed = calcSpeed([oldq.top, oldq.left], newq);
+function createFly() {
+    fieldWidth = $('#figuresCont').width();
+    fieldHeight = $('#figuresCont').height();
+    const figure = $('<div>').addClass('fly').css({left: getRandom(150, fieldWidth),
+        top: getRandom(170, fieldHeight)});
+    $("#figuresCont").prepend(figure);
+}
 
-    $('#fly').animate({ top: newq[0], left: newq[1] }, speed, function(){
-        animateDiv();
-    });
 
-};
-
-function calcSpeed(prev, next) {
-
-    var x = Math.abs(prev[1] - next[1]);
-    var y = Math.abs(prev[0] - next[0]);
-
-    var greatest = x > y ? x : y;
-
-    var speedModifier = 0.1;
-
-    var speed = Math.ceil(greatest/speedModifier);
-
-    return speed;
-
+function animateDiv($target){
+    fieldWidth = $('#figuresCont').width();
+    fieldHeight = $('#figuresCont').height();
+    // $target.click(function (){
+    //     $target.remove();
+    //     $("#counter").text(parseInt($("#counter").text()) + 1);
+    // })
+    if ($target.css('opacity') === '0'){
+        $target.remove();
+        $("#counter").text(parseInt($("#counter").text()) + 1);
+    }
+    if($target.length){
+        $target.animate({ top: getRandom(170, fieldHeight+30), left: getRandom(150, fieldWidth+5),
+            opacity: $target.css('opacity')-getRandom(0.2, 0.9) }, getRandom(1000, 5000), function (){
+            animateDiv($target);
+        });
+    }
 }
